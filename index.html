@@ -243,7 +243,7 @@
                     { q: "Fetch updates from the cloud.", a: "git fetch", h: "Fetch them...", s: "Updates fetched." },
                     { q: "Download and merge updates (Pull).", a: "git pull", h: "Pull from cloud...", s: "Synced!" },
                     { q: "Check remote URLs.", a: "git remote -v", h: "Remote verbose...", s: "URLs listed." },
-                    { q: "Change the 'origin' to your own URL.", a: "git remote set-url origin https://github.com/luohino/my-repo.git", h: "Use 'remote set-url origin'...", s: "Repo hijacked! It's yours now." }
+                    { q: "Change the 'origin' to your own URL(https://github.com/luohino/my-repo.git).", a: "git remote set-url origin https://github.com/luohino/my-repo.git", h: "Use 'remote set-url origin'...", s: "Repo hijacked! It's yours now." }
                 ]
             },
             4: {
@@ -260,6 +260,15 @@
                     { q: "Pick commit 'abc1234'.", a: "git cherry-pick abc1234", h: "Cherry-pick...", s: "Stolen!" },
                     { q: "Hide current work.", a: "git stash", h: "Stash it...", s: "Hidden!" },
                     { q: "Recover stashed work.", a: "git stash pop", h: "Pop it...", s: "Recovered!" }
+                ]
+            },
+            6: {
+                name: "The Shadow Realm (Elite)",
+                steps: [
+                    { q: "View the 'hidden' history of all actions.", a: "git reflog", h: "Think 'reference log'...", s: "The Shadow Realm is revealed. You can see everything." },
+                    { q: "Fix your last commit message/files.", a: "git commit --amend", h: "Amend the past...", s: "Past rewritten. No one will ever know." },
+                    { q: "Start a binary search for a bug.", a: "git bisect start", h: "Bisect it...", s: "The hunt for the bug begins." },
+                    { q: "See the entire tree in God View.", a: "git log --graph --oneline --all", h: "Log graph all...", s: "You see the universe clearly now. You are a GITHUB MASTER." }
                 ]
             }
         };
@@ -316,14 +325,27 @@
             if (currentStep < levels[currentLevel].steps.length - 1) {
                 currentStep++;
                 load();
-            } else if (currentLevel < 5) {
+            } else if (currentLevel < 6) {
                 alert(`LEVEL ${currentLevel} COMPLETE!`);
                 currentLevel++;
                 currentStep = 0;
                 load();
             } else {
-                alert("🏆 YOU ARE A GITHUB MASTER! COURSE COMPLETE!");
-                location.reload();
+                document.body.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #131a22; color: #fff; text-align: center; font-family: 'Outfit', sans-serif;">
+                        <div style="font-size: 8rem; margin-bottom: 20px; animation: bounce 2s infinite;">👑</div>
+                        <h1 style="font-size: 4rem; background: linear-gradient(to right, #58cc02, #1cb0f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">GITHUB MASTER</h1>
+                        <p style="font-size: 1.5rem; color: #a0a0a0; max-width: 600px; margin-top: 20px;">You have conquered the Foundations, the Team Flow, the DevOps Automation, and the Shadow Realm.</p>
+                        <div style="margin-top: 40px; padding: 20px 40px; border: 2px solid #58cc02; border-radius: 20px; background: rgba(88, 204, 2, 0.1);">
+                            <h3 style="color: #58cc02;">CERTIFICATE OF MASTERY</h3>
+                            <p style="margin-top: 10px; font-family: monospace;">Rank: Architect of the Cloud</p>
+                        </div>
+                        <button onclick="location.reload()" style="margin-top: 40px; padding: 15px 30px; background: #58cc02; border: none; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer;">RESTART THE JOURNEY</button>
+                    </div>
+                    <style>
+                        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+                    </style>
+                `;
             }
         });
 
