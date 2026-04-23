@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitLingo - Full Mastery Course</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-green-border: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-blue-border: #1899d6;
+            --duo-gray: #202b38;
+            --duo-text: #e0e0e0;
+            --duo-text-dim: #a0a0a0;
+            --duo-error: #ff4b4b;
+            --duo-error-border: #d33131;
+            --duo-bg: #131a22;
+            --duo-card: #1c2733;
+            --duo-border: #313e4e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--duo-bg);
+            color: var(--duo-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-bar-bg {
+            flex-grow: 1;
+            height: 16px;
+            background: var(--duo-gray);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--duo-green);
+            width: 5%;
+            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(88, 204, 2, 0.4);
+        }
+
+        .content {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        #level-indicator {
+            color: var(--duo-blue);
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .challenge-box {
+            background: var(--duo-card);
+            border: 2px solid var(--duo-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .instruction {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--duo-text-dim);
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.3rem;
+            background: #0d1117;
+            border: 2px solid var(--duo-border);
+            border-radius: 15px;
+            color: #58cc02;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--duo-blue);
+            box-shadow: 0 0 15px rgba(28, 176, 246, 0.2);
+        }
+
+        .footer {
+            width: 100%;
+            border-top: 2px solid var(--duo-border);
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            background: #1c2733;
+            position: relative;
+        }
+
+        .check-btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            background: var(--duo-green);
+            border: none;
+            border-bottom: 4px solid var(--duo-green-border);
+            border-radius: 15px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .feedback {
+            position: absolute;
+            bottom: -200px;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback.show { bottom: 0; }
+        .feedback.success { background: #d7ffb8; color: #58a700; }
+        .feedback.error { background: #ffdfe0; color: #ea2b2b; }
+
+        .feedback-content {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .continue-btn {
+            padding: 12px 30px;
+            background: var(--duo-green);
+            border: none;
+            border-bottom: 4px solid var(--duo-green-border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .error .continue-btn { background: var(--duo-error); border-bottom-color: var(--duo-error-border); }
+
+        .hearts { font-size: 1.5rem; color: #ff4b4b; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="progress-bar-bg"><div id="progress" class="progress-bar-fill"></div></div>
+        <div id="hearts" class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="content">
+        <div id="level-indicator">LEVEL 1</div>
+        <h1 id="question-title">Loading...</h1>
+        <div class="challenge-box">
+            <p id="instruction" class="instruction">Loading...</p>
+            <input type="text" id="answer-input" placeholder="Type command..." autofocus autocomplete="off">
+        </div>
+    </div>
+
+    <div class="footer">
+        <button id="check-btn" class="check-btn">Check</button>
+        <div id="feedback" class="feedback">
+            <div class="feedback-content">
+                <div class="feedback-text">
+                    <h2 id="feedback-title">Correct!</h2>
+                    <p id="feedback-msg">Message here.</p>
+                </div>
+                <button id="continue-btn" class="continue-btn">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const levels = {
+            1: {
+                name: "Foundations",
+                steps: [
+                    { q: "Initialize a new Git repo.", a: "git init", h: "Think 'init'...", s: "Repo created!" },
+                    { q: "Check which files are untracked.", a: "git status", h: "Check the status...", s: "Status checked." },
+                    { q: "Stage all changes.", a: "git add .", h: "Add everything...", s: "Files staged." },
+                    { q: "Commit with message 'init'.", a: 'git commit -m "init"', h: "Commit with -m...", s: "Commit saved." },
+                    { q: "Link to origin URL  https://github.com/luohino/foxremote.git.", a: "git remote add origin https://github.com/luohino/foxremote.git", h: "Remote add origin...", s: "Linked!" }
+                ]
+            },
+            2: {
+                name: "Collaboration & Flow",
+                steps: [
+                    { q: "Create and switch to branch 'dev'.", a: "git checkout -b dev", h: "Checkout -b...", s: "Branch created!" },
+                    { q: "Switch back to 'main'.", a: "git checkout main", h: "Checkout branch name...", s: "Switched back." },
+                    { q: "Merge 'dev' into 'main'.", a: "git merge dev", h: "Merge branch name...", s: "Merged!" },
+                    { q: "Delete branch 'dev'.", a: "git branch -d dev", h: "Branch -d...", s: "Deleted." }
+                ]
+            },
+            3: {
+                name: "Team Player (Syncing)",
+                steps: [
+                    { q: "Fetch updates from the cloud.", a: "git fetch", h: "Fetch them...", s: "Updates fetched." },
+                    { q: "Download and merge updates (Pull).", a: "git pull", h: "Pull from cloud...", s: "Synced!" },
+                    { q: "Check remote URLs.", a: "git remote -v", h: "Remote verbose...", s: "URLs listed." },
+                    { q: "Change the 'origin' to your own URL.", a: "git remote set-url origin https://github.com/luohino/my-repo.git", h: "Use 'remote set-url origin'...", s: "Repo hijacked! It's yours now." }
+                ]
+            },
+            4: {
+                name: "Power User (DevOps)",
+                steps: [
+                    { q: "Where do you store GitHub Actions?", a: ".github/workflows", h: "It starts with a dot...", s: "Workflow path found!" },
+                    { q: "Create a GitHub Pages branch.", a: "git checkout -b gh-pages", h: "Checkout gh-pages...", s: "Hosting ready!" }
+                ]
+            },
+            5: {
+                name: "The Architect",
+                steps: [
+                    { q: "Rebase current onto main.", a: "git rebase main", h: "Rebase it...", s: "History cleaned!" },
+                    { q: "Pick commit 'abc1234'.", a: "git cherry-pick abc1234", h: "Cherry-pick...", s: "Stolen!" },
+                    { q: "Hide current work.", a: "git stash", h: "Stash it...", s: "Hidden!" },
+                    { q: "Recover stashed work.", a: "git stash pop", h: "Pop it...", s: "Recovered!" }
+                ]
+            }
+        };
+
+        let currentLevel = 1;
+        let currentStep = 0;
+        let hearts = 3;
+
+        const input = document.getElementById('answer-input');
+        const checkBtn = document.getElementById('check-btn');
+        const feedback = document.getElementById('feedback');
+        const continueBtn = document.getElementById('continue-btn');
+        const progress = document.getElementById('progress');
+        const heartsDisplay = document.getElementById('hearts');
+
+        function load() {
+            const lvl = levels[currentLevel];
+            const step = lvl.steps[currentStep];
+            document.getElementById('level-indicator').innerText = `LEVEL ${currentLevel}: ${lvl.name}`;
+            document.getElementById('question-title').innerText = step.q;
+            document.getElementById('instruction').innerText = "Type the command to proceed.";
+            input.value = '';
+            feedback.classList.remove('show');
+            progress.style.width = ((currentStep / lvl.steps.length) * 100) + '%';
+        }
+
+        checkBtn.addEventListener('click', () => {
+            if (feedback.classList.contains('show')) return;
+            const step = levels[currentLevel].steps[currentStep];
+            if (input.value.trim().toLowerCase() === step.a.toLowerCase()) {
+                feedback.className = "feedback show success";
+                document.getElementById('feedback-title').innerText = "Amazing!";
+                document.getElementById('feedback-msg').innerText = step.s;
+            } else {
+                hearts--;
+                heartsDisplay.innerText = "❤️".repeat(hearts) + "🖤".repeat(3-hearts);
+                if (hearts <= 0) {
+                    alert("Game Over! Restarting...");
+                    location.reload();
+                } else {
+                    feedback.className = "feedback show error";
+                    document.getElementById('feedback-title').innerText = "Incorrect";
+                    document.getElementById('feedback-msg').innerText = `Hint: ${step.h}`;
+                }
+            }
+        });
+
+        continueBtn.addEventListener('click', () => {
+            if (feedback.classList.contains('error')) {
+                feedback.classList.remove('show');
+                input.focus();
+                return;
+            }
+            if (currentStep < levels[currentLevel].steps.length - 1) {
+                currentStep++;
+                load();
+            } else if (currentLevel < 5) {
+                alert(`LEVEL ${currentLevel} COMPLETE!`);
+                currentLevel++;
+                currentStep = 0;
+                load();
+            } else {
+                alert("🏆 YOU ARE A GITHUB MASTER! COURSE COMPLETE!");
+                location.reload();
+            }
+        });
+
+        input.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                if (feedback.classList.contains('show')) {
+                    continueBtn.click();
+                } else {
+                    checkBtn.click();
+                }
+            }
+        });
+        load();
+    </script>
+</body>
+</html>
